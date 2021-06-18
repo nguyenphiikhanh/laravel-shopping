@@ -24,9 +24,7 @@
                             <label>Chọn danh mục cha</label>
                             <select class="form-control">
                                 <option value="0">Chọn danh mục cha</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
+                                {!! $htmlOption !!}
                             </select>
                         </div>
 
