@@ -16,22 +16,20 @@ class AdminController extends Controller
     public function index()
     {
         //
-        return view('login');
+        if (Auth::check()) {
+            return redirect()->to('home');
+        } else return view('login');
     }
 
     public function login(Request $request)
     {
-        // dd(bcrypt($request->password));
         $loginInfo = [
             'email' => $request->email,
             'password' => $request->password,
         ];
         $remember = $request->has('remember_me') ? true : false;
 
-        if (Auth::attempt([
-            'email' => $request->email,
-            'password' => $request->password,
-        ], $remember)) {
+        if (Auth::attempt($loginInfo, $remember)) {
             return redirect()->to('home');
         } else {
             echo '<script> alert("Sai email hoặc mật khẩu,vui lòng thử lại");</script>';
@@ -47,6 +45,6 @@ class AdminController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('admin.login');
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,77 +14,83 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'AdminController@index');
+Route::get('/admin', 'AdminController@index')->name('admin.login');
 
-Route::post('/', 'AdminController@login');
+Route::post('/admin', 'AdminController@login');
 
 Route::get('/logout', 'AdminController@logout')->name('admin.logout');
 
 Route::get('/home', function () {
-    return view('home');
+    if(Auth::check()){
+        return view('home');
+    } return redirect()->route('admin.login');
 });
 
-Route::prefix('categories')->group(function () {
-    Route::get('/', [
-        'as' => 'categories.index',
-        'uses'=> 'CategoryController@index'
-    ]);
+Route::prefix('admin')->group(function () {
+    Route::prefix('categories')->group(function () {
+        Route::get('/', [
+            'as' => 'categories.index',
+            'uses'=> 'CategoryController@index'
+        ]);
+        
+        Route::get('/create', [
+            'as' => 'categories.create',
+            'uses'=> 'CategoryController@create'
+        ]);
     
-    Route::get('/create', [
-        'as' => 'categories.create',
-        'uses'=> 'CategoryController@create'
-    ]);
-
-    Route::post('/store', [
-        'as' => 'categories.store',
-        'uses'=> 'CategoryController@store'
-    ]);
-
-    Route::get('/edit/{id}', [
-        'as' => 'categories.edit',
-        'uses'=> 'CategoryController@edit'
-    ]);
-
-    Route::post('/update/{id}', [
-        'as' => 'categories.update',
-        'uses'=> 'CategoryController@update'
-    ]);
-
-    Route::get('/del/{id}', [
-        'as' => 'categories.del',
-        'uses'=> 'CategoryController@delete'
-    ]);
+        Route::post('/store', [
+            'as' => 'categories.store',
+            'uses'=> 'CategoryController@store'
+        ]);
+    
+        Route::get('/edit/{id}', [
+            'as' => 'categories.edit',
+            'uses'=> 'CategoryController@edit'
+        ]);
+    
+        Route::post('/update/{id}', [
+            'as' => 'categories.update',
+            'uses'=> 'CategoryController@update'
+        ]);
+    
+        Route::get('/del/{id}', [
+            'as' => 'categories.del',
+            'uses'=> 'CategoryController@delete'
+        ]);
+    });
+    
+    
+    Route::prefix('menus')->group(function () {
+        Route::get('/', [
+            'as' => 'menus.index',
+            'uses'=> 'MenuController@index'
+        ]);
+    
+        Route::get('/create', [
+            'as' => 'menus.create',
+            'uses'=> 'MenuController@create'
+        ]);
+        
+        Route::post('/store', [
+            'as' => 'menus.store',
+            'uses'=> 'MenuController@store'
+        ]);
+        
+        Route::get('/edit/{id}', [
+            'as' => 'menus.edit',
+            'uses'=> 'MenuController@edit'
+        ]);
+    
+        Route::post('/update/{id}', [
+            'as' => 'menus.update',
+            'uses'=> 'MenuController@update'
+        ]);
+    
+        Route::get('/del/{id}', [
+            'as' => 'menus.del',
+            'uses'=> 'MenuController@destroy'
+        ]);
+    });
 });
 
 
-Route::prefix('menus')->group(function () {
-    Route::get('/', [
-        'as' => 'menus.index',
-        'uses'=> 'MenuController@index'
-    ]);
-
-    Route::get('/create', [
-        'as' => 'menus.create',
-        'uses'=> 'MenuController@create'
-    ]);
-    
-    Route::post('/store', [
-        'as' => 'menus.store',
-        'uses'=> 'MenuController@store'
-    ]);
-    
-    Route::get('/edit/{id}', [
-        'as' => 'menus.edit',
-        'uses'=> 'MenuController@edit'
-    ]);
-
-    Route::post('/update/{id}', [
-        'as' => 'menus.update',
-        'uses'=> 'MenuController@update'
-    ]);
-
-    Route::get('/del/{id}', [
-        'as' => 'menus.del',
-        'uses'=> 'MenuController@destroy'
-    ]);
-});
