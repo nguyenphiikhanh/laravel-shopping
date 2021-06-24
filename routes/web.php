@@ -26,7 +26,9 @@ Route::get('/home', function () {
     } return redirect()->route('admin.login');
 });
 
+    //admin
 Route::prefix('admin')->group(function () {
+    //Category
     Route::prefix('categories')->group(function () {
         Route::get('/', [
             'as' => 'categories.index',
@@ -59,7 +61,7 @@ Route::prefix('admin')->group(function () {
         ]);
     });
     
-    
+    //Menu
     Route::prefix('menus')->group(function () {
         Route::get('/', [
             'as' => 'menus.index',
@@ -91,6 +93,20 @@ Route::prefix('admin')->group(function () {
             'uses'=> 'MenuController@destroy'
         ]);
     });
+
+    //Product
+    Route::prefix('product')->group(function () { 
+        Route::get('/', [
+            'as' => 'product.index',
+            'uses'=> 'AdminProductController@index'
+        ]);
+
+        Route::get('/create', [
+            'as' => 'product.create',
+            'uses'=> 'AdminProductController@create'
+        ]);
+    });
+
 });
 
 
