@@ -14,7 +14,7 @@
 
 <div class="content-wrapper">
     @include('partials.content-header',['name'=> 'Product','key' =>'Add'])
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="{{ route('product.store') }}" method="post" enctype="multipart/form-data">
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
