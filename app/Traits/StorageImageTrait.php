@@ -1,8 +1,8 @@
 <?php 
 namespace App\Traits;
 
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 trait StorageImageTrait{
     //

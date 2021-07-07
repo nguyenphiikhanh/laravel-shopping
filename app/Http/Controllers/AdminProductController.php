@@ -55,7 +55,7 @@ class AdminProductController extends Controller
     public function store(Request $request)
     {
         //
-        $data = $this->storageTraitUpload($request,'feature_image_path','product');
+        $dataUpload = $this->storageTraitUpload($request,'feature_image_path','product');
         // $file = $request->feature_image_path;
         // $fileNameOrigin = $file->getClientOriginalName();
         // $fileNameHash = str_random(20).'.'.$file->getClientOriginalExtension();
@@ -66,7 +66,7 @@ class AdminProductController extends Controller
         //     'file_name' => $fileNameOrigin,
         //     'file_path' => Storage::url($filepath),
         // ];
-        dd($data);
+        dd($dataUpload);
     }
 
     /**
