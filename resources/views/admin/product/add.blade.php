@@ -44,7 +44,7 @@
 
                         <div class="form-group">
                             <label>Chọn danh mục</label>
-                            <select class="form-control select2_init" name="parent_id">
+                            <select class="form-control select2_init" name="category_id">
                                 <option value="">Chọn danh mục</option>
                                 {!! $htmlOption !!}
                             </select>
@@ -61,7 +61,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Mô tả</label>
-                            <textarea class="form-control tinymce_editor_init" name="content" id="exampleFormControlTextarea1" rows="20"></textarea>
+                            <textarea class="form-control tinymce_editor_init" name="contents" id="exampleFormControlTextarea1" rows="20"></textarea>
                         </div>
                     </div>
 
