@@ -52,7 +52,7 @@
 
                         <div class="form-group">
                             <label>Nhập tags</label>
-                            <select name="tag[]" class="form-control tag_select_choose" multiple="multiple">
+                            <select name="tags[]" class="form-control tag_select_choose" multiple="multiple">
 
                             </select>
                         </div>
