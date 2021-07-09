@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Components\Recusive;
 use App\Product;
 use App\ProductImage;
+use App\ProductTag;
+use App\Tag;
 use App\Traits\StorageImageTrait;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,11 +18,17 @@ class AdminProductController extends Controller
     private $category;
     private $product;
     private $productImage;
-    public function __construct(Category $category, Product $product,ProductImage $productImage)
+    private $productTag;
+    private $tag;
+
+    public function __construct(Category $category, Product $product,Tag $tag,
+    ProductTag $productTag, ProductImage $productImage)
     {
         $this->category = $category;
         $this->product = $product;
         $this->productImage = $productImage;
+        $this->tag = $tag;
+        $this->productTag = $productTag;
     }
     /**
      * Display a listing of the resource.
@@ -81,14 +89,20 @@ class AdminProductController extends Controller
 
         //insert data to product_images
         if ($request->hasFile('image_path')) {
-            foreach($request->image_path as $fileItem){
-                $dataProductImageDetails = $this->storageTraitUploadMultiple($fileItem,'product');
+            foreach ($request->image_path as $fileItem) {
+                $dataProductImageDetails = $this->storageTraitUploadMultiple($fileItem, 'product');
                 $product->images()->create([
                     'image_path' => $dataProductImageDetails['file_path'],
                     'image_name' => $dataProductImageDetails['file_name'],
                 ]);
             }
         }
+        // insert tags to for product 
+        foreach ($request->tags as $tagItem) {
+            $tagInstance = $this->tag->firstOrCreate(['name' => $tagItem]);
+            $tagIds[] = $tagInstance->id;
+        }
+        $product->tags()->attach($tagIds);
     }
 
     /**

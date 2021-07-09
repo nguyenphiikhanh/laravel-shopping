@@ -12,4 +12,10 @@ class Product extends Model
     public function images(){
         return $this->hasMany(ProductImage::class,'product_id');
     }
+
+    public function tags(){
+        return $this
+        ->belongsToMany(Tag::class,'product_tags','product_id','tag_id')
+        ->withTimestamps();;
+    }
 }
