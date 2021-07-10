@@ -4,6 +4,15 @@
 <title>Admin C-panel</title>
 @endsection
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('admins/product/index/list.css') }}">
+@endsection
+
+
+@section('js')
+<!-- add js here -->
+@endsection
+
 @section('content')
 
 <div class="content-wrapper">
@@ -28,26 +37,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                           
+                           @foreach($products as $productItem)
                             <tr>
-                                <th scope="row">1</th>
-                                <td>IPhone 13</td>
-                                <td>$2.500.000</td>
+                                <th scope="row">{{ $productItem->id }}</th>
+                                <td>{{ $productItem->name }}</td>
+                                <td>{{ $productItem->price }}</td>
                                 <td>
-                                <img src="" alt="">
+                                <img class="product_image_150_100" src="{{ $productItem->feature_image_path }}" alt="">
                                 </td>
-                                <td>Điện thoại Iphone13</td>
+                                <td>{{ $productItem->categories->name }}</td>
                                 <td>
                                     <a href="" class="btn btn-secondary">Sửa</a>
                                     <a href="" onClick="return confirm('Bạn có chắc chắn muốn xóa Mục này?')" class="btn btn-danger">Xóa</a>
                                 </td>
                             </tr>
-                          
+                          @endforeach
                         </tbody>
                     </table>
                 </div>
                 <div class="col-md-12">
-   
+                    {{ $products->links() }}
                 </div>
             </div>
         </div>

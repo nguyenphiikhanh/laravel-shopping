@@ -18,4 +18,8 @@ class Product extends Model
         ->belongsToMany(Tag::class,'product_tags','product_id','tag_id')
         ->withTimestamps();;
     }
+
+    public function categories(){
+        return $this->belongsTo(Category::class,'category_id');
+    }
 }
