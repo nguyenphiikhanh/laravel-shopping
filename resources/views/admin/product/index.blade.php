@@ -37,21 +37,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                           @foreach($products as $productItem)
+                            @foreach($products as $productItem)
                             <tr>
                                 <th scope="row">{{ $productItem->id }}</th>
                                 <td>{{ $productItem->name }}</td>
-                                <td>{{ $productItem->price }}</td>
+                                <td>{{ number_format($productItem->price) }}</td>
                                 <td>
-                                <img class="product_image_150_100" src="{{ $productItem->feature_image_path }}" alt="">
+                                    <img class="product_image_150_100" src="{{ $productItem->feature_image_path }}" alt="">
                                 </td>
-                                <td>{{ $productItem->categories->name }}</td>
+                                <td>{{ optional($productItem->categories)->name }}</td>
                                 <td>
-                                    <a href="" class="btn btn-secondary">Sửa</a>
-                                    <a href="" onClick="return confirm('Bạn có chắc chắn muốn xóa Mục này?')" class="btn btn-danger">Xóa</a>
+                                    <a href="{{ route('product.edit',['id' => $productItem->id]) }}" class="btn btn-secondary">Sửa</a>
+                                    <a href="" onClick="return confirm('Bạn có chắc chắn muốn xóa Sản phẩm này?')" class="btn btn-danger">Xóa</a>
                                 </td>
                             </tr>
-                          @endforeach
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
