@@ -10,7 +10,8 @@
 
 
 @section('js')
-<!-- add js here -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('admins/product/index/list.js') }}"></script>
 @endsection
 
 @section('content')
@@ -48,7 +49,9 @@
                                 <td>{{ optional($productItem->categories)->name }}</td>
                                 <td>
                                     <a href="{{ route('product.edit',['id' => $productItem->id]) }}" class="btn btn-secondary">Sửa</a>
-                                    <a href="" onClick="return confirm('Bạn có chắc chắn muốn xóa Sản phẩm này?')" class="btn btn-danger">Xóa</a>
+                                    <a href=""
+                                    data-url="{{ route('product.delete',['id' => $productItem->id]) }}"
+                                    class="btn btn-danger action_delete">Xóa</a>
                                 </td>
                             </tr>
                             @endforeach

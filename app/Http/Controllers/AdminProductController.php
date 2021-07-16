@@ -146,7 +146,7 @@ class AdminProductController extends Controller
         //
         $product = $this->product->find($id);
         $htmlOption = $this->getCate($product->category_id);
-        return view('admin.product.edit',compact('htmlOption','product'));
+        return view('admin.product.edit', compact('htmlOption', 'product'));
     }
 
     /**
@@ -159,6 +159,52 @@ class AdminProductController extends Controller
     public function update(Request $request, $id)
     {
         //
+        try {
+            DB::beginTransaction();
+            $dataProductUpdate = [
+                'name' => $request->name,
+                'price' => $request->price,
+                'content' => $request->contents,
+                'user_id' => Auth::id(),
+                'category_id' => $request->category_id,
+            ];
+
+            $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'product');
+            if (!empty($dataUploadFeatureImage)) {
+                $dataProductUpdate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
+                $dataProductUpdate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
+            }
+
+            $this->product->find($id)->update($dataProductUpdate);
+            $product = $this->product->find($id);
+
+            //insert data to product_images
+            if ($request->hasFile('image_path')) {
+                $this->productImage->where('product_id', $id)->delete();
+                foreach ($request->image_path as $fileItem) {
+                    $dataProductImageDetails = $this->storageTraitUploadMultiple($fileItem, 'product');
+                    $product->images()->create([
+                        'image_path' => $dataProductImageDetails['file_path'],
+                        'image_name' => $dataProductImageDetails['file_name'],
+                    ]);
+                }
+            }
+            // insert tags to for product 
+            if (!empty($request->tags)) {
+                foreach ($request->tags as $tagItem) {
+                    $tagInstance = $this->tag->firstOrCreate(['name' => $tagItem]);
+                    $tagIds[] = $tagInstance->id;
+                }
+            }
+
+            $product->tags()->sync($tagIds);
+
+            DB::commit();
+            return redirect()->route('product.index');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
+        }
     }
 
     /**
@@ -170,5 +216,20 @@ class AdminProductController extends Controller
     public function destroy($id)
     {
         //
+        try {
+            $this->product->find($id)->delete();
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+
+            ], 200);
+        } catch (\Exception $exception) {
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
+            return response()->json([
+                'code' => 500,
+                'message' => 'fail',
+
+            ], 500);
+        }
     }
 }
