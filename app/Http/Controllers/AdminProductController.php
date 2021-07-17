@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Components\Recusive;
+use App\Http\Requests\ProductAddRequest;
 use App\Product;
 use App\ProductImage;
 use App\ProductTag;
@@ -75,7 +76,7 @@ class AdminProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductAddRequest $request)
     {
         //
         try {
