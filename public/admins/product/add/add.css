@@ -11,3 +11,8 @@
 .ctn_image_detail, .ctn_feature_image{
     margin-top: 20px;
 }
+
+.alert-danger{
+    margin-top: 10px;
+    padding: 3px 5px;
+}

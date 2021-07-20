@@ -14,17 +14,7 @@
 
 <div class="content-wrapper">
     @include('partials.content-header',['name'=> 'Product','key' =>'Add'])
-    <div class="col-md-12">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-    </div>
+
     <form action="{{ route('product.store') }}" method="post" enctype="multipart/form-data">
         <div class="content">
             <div class="container-fluid">
@@ -34,12 +24,18 @@
                         @csrf
                         <div class="form-group">
                             <label>Tên sản phẩm</label>
-                            <input type="text" name="name" class="form-control" placeholder="Nhập tên sản phẩm">
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Nhập tên sản phẩm">
+                            @error('name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label>Giá</label>
-                            <input type="text" name="price" class="form-control" placeholder="Nhập giá sản phẩm">
+                            <input type="text" name="price" class="form-control @error('price') is-invalid @enderror" placeholder="Nhập giá sản phẩm">
+                            @error('price')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
@@ -55,10 +51,13 @@
 
                         <div class="form-group">
                             <label>Chọn danh mục</label>
-                            <select class="form-control select2_init" name="category_id">
+                            <select class="form-control select2_init @error('category_id') is-invalid @enderror" name="category_id">
                                 <option value="">Chọn danh mục</option>
                                 {!! $htmlOption !!}
                             </select>
+                            @error('category_id')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
@@ -72,7 +71,10 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Mô tả</label>
-                            <textarea class="form-control tinymce_editor_init" name="contents" id="exampleFormControlTextarea1" rows="20"></textarea>
+                            @error('content')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                            <textarea class="form-control tinymce_editor_init @error('price') is-invalid @enderror" name="contents" id="exampleFormControlTextarea1" rows="20"></textarea>
                         </div>
                     </div>
 

@@ -39,7 +39,7 @@ class ProductAddRequest extends FormRequest
             'name.required' => 'Tên sản phẩm không được phép để trống.',
             'name.unique' => 'Tên sản phẩm đã tồn tại.',
             'name.max' => 'Tên sản phẩm không được phép quá 255 kí tự.',
-            'name.min' => 'Tên sản phẩm khồn được dưới 5 kí tự.',
+            'name.min' => 'Tên sản phẩm không được dưới 5 kí tự.',
             'category_id.required' => 'Danh mục không được phép để trống.',
             'content.required' => 'Nội dung mô tả không được để trống.',
             'price.required' => 'Giá sản phẩm không được phép để trống.',
