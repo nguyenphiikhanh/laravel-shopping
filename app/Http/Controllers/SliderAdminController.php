@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SliderAddRequest;
+use App\Slider;
+use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SliderAdminController extends Controller
 {
@@ -12,6 +15,13 @@ class SliderAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    use StorageImageTrait;
+    private $slider;
+    public function __construct(Slider $slider)
+    {
+        $this->slider = $slider;
+    }
+
     public function index()
     {
         //
@@ -38,7 +48,22 @@ class SliderAdminController extends Controller
     public function store(SliderAddRequest $request)
     {
         //
-        dd('form submitted');
+        try {
+            $dataInert = [
+                'name' => $request->name,
+                'description' => $request->description,
+            ];
+
+            $imageSlider = $this->storageTraitUpload($request, 'image_path', 'slider');
+            if (!empty($imageSlider)) {
+                $dataInert['image_name'] = $imageSlider['file_name'];
+                $dataInert['image_path'] = $imageSlider['file_path'];
+            }
+            $this->slider->create($dataInert);
+            return redirect()->route('slider.index');
+        } catch (\Exception $exception) {
+            Log::error("Lỗi : ".$exception->getMessage()."--Line : ".$exception->getLine());
+        }
     }
 
     /**

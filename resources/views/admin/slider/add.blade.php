@@ -31,10 +31,9 @@
 
                         <div class="form-group">
                             <label>Mô tả</label>
-                            <input type="text" name="description"
+                            <textarea type="text" name="description" rows="4"
                                 class="form-control @error('description') is-invalid @enderror"
-                                value="{{old('description')}}"
-                                placeholder="Nhập mô tả">
+                                placeholder="Nhập mô tả">{{old('description')}}</textarea>
                             @error('description')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
