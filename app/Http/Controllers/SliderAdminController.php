@@ -128,18 +128,6 @@ class SliderAdminController extends Controller
     public function destroy($id)
     {
         //
-        try {
-            $this->slider->find($id)->delete();
-            return response()->json([
-                'code' => 200,
-                'message' => 'delete_success'
-            ], 200);
-        } catch (\Exception $exception) {
-            Log::error("Lỗi : " . $exception->getMessage() . "--Line : " . $exception->getLine());
-            return response()->json([
-                'code' => 500,
-                'message' => 'delete_fail'
-            ], 500);
-        }
+        return $this->deleteModelTrait($id,$this->slider);
     }
 }

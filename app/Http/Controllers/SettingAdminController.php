@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SettingAddRequest;
 use App\Setting;
+use App\Traits\DeleteModelTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -15,6 +16,7 @@ class SettingAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+     use DeleteModelTrait;
     private $setting;
     public function __construct(Setting $setting)
     {
@@ -108,20 +110,6 @@ class SettingAdminController extends Controller
     public function destroy($id)
     {
         //
-        try {
-            $this->setting->find($id)->delete();
-            return response()->json([
-                'code' => 200,
-                'message' => 'success',
-
-            ], 200);
-        } catch (\Exception $exception) {
-            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
-            return response()->json([
-                'code' => 500,
-                'message' => 'fail',
-
-            ], 500);
-        }
+      return $this->deleteModelTrait($id,$this->setting);
     }
 }
