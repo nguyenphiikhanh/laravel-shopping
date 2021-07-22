@@ -25,8 +25,8 @@ class SliderAdminController extends Controller
     public function index()
     {
         //
-        $sliders = $this->slider->latest()->paginate(5); 
-        return view('admin.slider.index',compact('sliders'));
+        $sliders = $this->slider->latest()->paginate(5);
+        return view('admin.slider.index', compact('sliders'));
     }
 
     /**
@@ -63,7 +63,7 @@ class SliderAdminController extends Controller
             $this->slider->create($dataInert);
             return redirect()->route('slider.index');
         } catch (\Exception $exception) {
-            Log::error("Lỗi : ".$exception->getMessage()."--Line : ".$exception->getLine());
+            Log::error("Lỗi : " . $exception->getMessage() . "--Line : " . $exception->getLine());
         }
     }
 
@@ -87,6 +87,8 @@ class SliderAdminController extends Controller
     public function edit($id)
     {
         //
+        $slider = $this->slider->find($id);
+        return view('admin.slider.edit', compact('slider'));
     }
 
     /**
@@ -96,9 +98,25 @@ class SliderAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SliderAddRequest $request, $id)
     {
         //
+        try {
+            $dataUpdate = [
+                'name' => $request->name,
+                'description' => $request->description,
+            ];
+
+            $imageSlider = $this->storageTraitUpload($request, 'image_path', 'slider');
+            if (!empty($imageSlider)) {
+                $dataUpdate['image_name'] = $imageSlider['file_name'];
+                $dataUpdate['image_path'] = $imageSlider['file_path'];
+            }
+            $this->slider->find($id)->update($dataUpdate);
+            return redirect()->route('slider.index');
+        } catch (\Exception $exception) {
+            Log::error("Lỗi : " . $exception->getMessage() . "--Line : " . $exception->getLine());
+        }
     }
 
     /**
@@ -110,5 +128,18 @@ class SliderAdminController extends Controller
     public function destroy($id)
     {
         //
+        try {
+            $this->slider->find($id)->delete();
+            return response()->json([
+                'code' => 200,
+                'message' => 'delete_success'
+            ], 200);
+        } catch (\Exception $exception) {
+            Log::error("Lỗi : " . $exception->getMessage() . "--Line : " . $exception->getLine());
+            return response()->json([
+                'code' => 500,
+                'message' => 'delete_fail'
+            ], 500);
+        }
     }
 }

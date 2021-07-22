@@ -8,6 +8,11 @@
 <link rel="stylesheet" href="{{asset('admins/slider/index/index.css')}}">
 @endsection
 
+@section('js')
+<script src="{{ asset('vendors/sweetAlert2/sweetalert2@11.js') }}"></script>
+<script src="{{ asset('admins/slider/index/index.js') }}"></script>
+@endsection
+
 @section('content')
 
 <div class="content-wrapper">
@@ -39,9 +44,10 @@
                                 <td>{{ $slider->description}}</td>
                                 <td><img class="slider_image" src="{{ $slider->image_path}}" alt=""></td>
                                 <td>
-                                    <a href="" class="btn btn-secondary">Sửa</a>
-                                    <a href="" class="btn btn-danger"
-                                        onClick="return confirm('Bạn có chắc chắn muốn xóa Slider này?')">Xóa</a>
+                                    <a href="{{ route('slider.edit',['id'=> $slider->id])}}" class="btn btn-secondary">Sửa</a>
+                                    <a href="" 
+                                    data-url="{{ route('slider.delete',['id'=> $slider->id])}}"
+                                    class="btn btn-danger action_delete">Xóa</a>
                                 </td>
                             </tr>
                             @endforeach
