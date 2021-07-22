@@ -173,5 +173,10 @@ Route::prefix('admin')->group(function () {
             'uses' => 'SettingAdminController@create'
         ]);
 
+        Route::post('/store', [
+            'as' => 'settings.store',
+            'uses' => 'SettingAdminController@store'
+        ]);
+
     });
 });

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SettingAddRequest;
+use App\Setting;
 use Illuminate\Http\Request;
 
 class SettingAdminController extends Controller
@@ -11,6 +13,13 @@ class SettingAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $setting;
+    public function __construct(Setting $setting)
+    {
+        $this->setting = $setting;
+    }
+
     public function index()
     {
         //
@@ -34,9 +43,15 @@ class SettingAdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SettingAddRequest $request)
     {
         //
+        $this->setting->create([
+            'config_key' => $request->config_key,
+            'config_value' => $request->config_value,
+        ]);
+
+        return redirect()->route('settings.index');
     }
 
     /**
