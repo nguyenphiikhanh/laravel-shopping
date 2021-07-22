@@ -23,7 +23,8 @@ class SettingAdminController extends Controller
     public function index()
     {
         //
-        return view('admin.settings.index');
+        $settings = $this->setting->latest()->paginate(5);
+        return view('admin.settings.index',compact('settings'));
     }
 
     /**
@@ -49,6 +50,7 @@ class SettingAdminController extends Controller
         $this->setting->create([
             'config_key' => $request->config_key,
             'config_value' => $request->config_value,
+            'type' => $request->type,
         ]);
 
         return redirect()->route('settings.index');
@@ -74,6 +76,8 @@ class SettingAdminController extends Controller
     public function edit($id)
     {
         //
+        $setting = $this->setting->find($id);
+        return view('admin.settings.edit',compact('setting'));
     }
 
     /**
@@ -83,9 +87,15 @@ class SettingAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SettingAddRequest $request, $id)
     {
         //
+        $this->setting->find($id)->update([
+            'config_key' => $request->config_key,
+            'config_value' => $request->config_value,
+        ]);
+
+        return redirect()->route('settings.index');
     }
 
     /**

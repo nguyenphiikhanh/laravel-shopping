@@ -177,6 +177,15 @@ Route::prefix('admin')->group(function () {
             'as' => 'settings.store',
             'uses' => 'SettingAdminController@store'
         ]);
+        
+        Route::get('/edit/{id}', [
+            'as' => 'settings.edit',
+            'uses' => 'SettingAdminController@edit'
+        ]);
 
+        Route::post('/update/{id}', [
+            'as' => 'settings.update',
+            'uses' => 'SettingAdminController@update'
+        ]);
     });
 });

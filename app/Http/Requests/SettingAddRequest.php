@@ -25,7 +25,7 @@ class SettingAddRequest extends FormRequest
     {
         return [
             //
-            'config_key' =>'bail|required|unique:settings|max:255',
+            'config_key' =>'bail|required|max:255',
             'config_value' => 'required'
         ];
     }
@@ -35,7 +35,6 @@ class SettingAddRequest extends FormRequest
     return [
         'config_key.required' => 'Bắt buộc nhập config key',
         'config_value.required' => 'Bắt buộc nhập config value',
-        'config_value.unique' => 'Config đã tồn tại',
         'config_value.max' => 'Tối đa 255 kí tự',
     ];
 }
