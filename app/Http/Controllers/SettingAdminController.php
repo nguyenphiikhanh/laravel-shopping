@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SettingAddRequest;
 use App\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SettingAdminController extends Controller
 {
@@ -107,5 +108,20 @@ class SettingAdminController extends Controller
     public function destroy($id)
     {
         //
+        try {
+            $this->setting->find($id)->delete();
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+
+            ], 200);
+        } catch (\Exception $exception) {
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
+            return response()->json([
+                'code' => 500,
+                'message' => 'fail',
+
+            ], 500);
+        }
     }
 }

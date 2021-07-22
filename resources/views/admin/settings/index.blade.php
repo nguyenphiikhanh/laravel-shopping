@@ -8,6 +8,11 @@
 <link rel="stylesheet" href="{{asset('admins/settings/index/index.css')}}">
 @endsection
 
+@section('js')
+<script src="{{ asset('vendors/sweetAlert2/sweetalert2@11.js') }}"></script>
+<script src="{{asset('admins/main.js')}}"></script>
+@endsection
+
 
 @section('content')
 
@@ -49,8 +54,9 @@
                                 <td>
                                     <a href="{{route('settings.edit',['id'=>$setting->id]).'?type='.$setting->type}}"
                                         class="btn btn-secondary">Sửa</a>
-                                    <a href="" class="btn btn-danger"
-                                        onClick="return confirm('Bạn có chắc chắn muốn xóa Menu này?')">Xóa</a>
+                                    <a href="" data-url="{{route('settings.delete',['id'=>$setting->id])}}"
+                                     class="btn btn-danger action_delete"
+                                    >Xóa</a>
                                 </td>
                             </tr>
                             @endforeach

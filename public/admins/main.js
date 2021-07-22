@@ -4,7 +4,7 @@ function actionDelete(event) {
     let that = $(this);
 
     Swal.fire({
-        title: 'Bạn có chắc chắn muốn xóa sản phẩm này không?',
+        title: 'Bạn có chắc chắn muốn xóa không?',
         text: "Chú ý: Không thể hoàn tác hành động này!",
         icon: 'warning',
         showCancelButton: true,
@@ -21,7 +21,7 @@ function actionDelete(event) {
                         that.parent().parent().remove();
                         Swal.fire(
                             'Thành công!',
-                            'Sản phẩm đã được xóa.',
+                            'Xóa thành công.',
                             'success'
                         )
                     }
