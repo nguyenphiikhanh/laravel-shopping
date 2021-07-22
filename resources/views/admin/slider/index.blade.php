@@ -4,6 +4,10 @@
 <title>Slider settings</title>
 @endsection
 
+@section('css')
+<link rel="stylesheet" href="{{asset('admins/slider/index/index.css')}}">
+@endsection
+
 @section('content')
 
 <div class="content-wrapper">
@@ -28,24 +32,25 @@
                         </thead>
                         <tbody>
 
-                        {{-- @foreach($menus as $menu) --}}
+                            @foreach($sliders as $slider)
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Slider 1</td>
-                                <td>Mô tả</td>
-                                <td></td>
+                                <th scope="row">{{ $slider->id}}</th>
+                                <td>{{ $slider->name }}</td>
+                                <td>{{ $slider->description}}</td>
+                                <td><img class="slider_image" src="{{ $slider->image_path}}" alt=""></td>
                                 <td>
                                     <a href="" class="btn btn-secondary">Sửa</a>
-                                    <a href="" class="btn btn-danger" onClick="return confirm('Bạn có chắc chắn muốn xóa Slider này?')">Xóa</a>
+                                    <a href="" class="btn btn-danger"
+                                        onClick="return confirm('Bạn có chắc chắn muốn xóa Slider này?')">Xóa</a>
                                 </td>
                             </tr>
-                            {{-- @endforeach --}}
+                            @endforeach
 
                         </tbody>
                     </table>
                 </div>
                 <div class="col-md-12">
-                    {{-- {{ $menus->links() }} --}}
+                    {{ $sliders->links() }}
                 </div>
             </div>
         </div>
