@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddUserRequest;
 use App\Role;
+use App\Traits\DeleteModelTrait;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AdminUserController extends Controller
 {
@@ -47,18 +51,24 @@ class AdminUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AddUserRequest $request)
     {
         //
-        $user = $this->user->create([
-            'name' => $request->name,
-            'email'=> $request->email,
-            'password'=> Hash::make($request->password),
-        ]);
-        $roleIds = $request->role_id;
-        $user->roles()->attach($roleIds);
-
-        return redirect()->route('users.index');
+        try{
+            DB::beginTransaction();
+            $user = $this->user->create([
+                'name' => $request->name,
+                'email'=> $request->email,
+                'password'=> Hash::make($request->password),
+            ]);
+            $roleIds = $request->role_id;
+            $user->roles()->attach($roleIds);
+            DB::commit();
+            return redirect()->route('users.index');
+        } catch(\Exception $exception){
+            DB::rollBack();
+            Log::error("Lỗi : ".$exception->getMessage()."Dòng : ".$exception->getLine());
+        }
     }
 
     /**
@@ -81,6 +91,10 @@ class AdminUserController extends Controller
     public function edit($id)
     {
         //
+        $roles = $this->role->all();
+        $user = $this->user->find($id);
+        $rolesOfUser = $user->roles;
+        return view('admin.user.edit',compact('user','roles','rolesOfUser'));
     }
 
     /**
@@ -93,6 +107,22 @@ class AdminUserController extends Controller
     public function update(Request $request, $id)
     {
         //
+        try{
+            DB::beginTransaction();
+            $this->user->find($id)->update([
+                'name' => $request->name,
+                'email'=> $request->email,
+                'password'=> Hash::make($request->password),
+            ]);
+            $user = $this->user->find($id);
+            $roleIds = $request->role_id;
+            $user->roles()->sync($roleIds);
+            DB::commit();
+            return redirect()->route('users.index');
+        } catch(\Exception $exception){
+            DB::rollBack();
+            Log::error("Lỗi : ".$exception->getMessage()."Dòng : ".$exception->getLine());
+        }
     }
 
     /**
@@ -101,8 +131,13 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    use DeleteModelTrait;
     public function destroy($id)
     {
         //
+
+            $user = $this->user->find($id);
+            $user->roles()->detach();
+            return $this->deleteModelTrait($id,$this->user);
     }
 }

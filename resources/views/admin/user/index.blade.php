@@ -42,9 +42,9 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email}}</td>
                                 <td>
-                                    <a href="" class="btn btn-secondary">Sửa</a>
+                                    <a href="{{route('users.edit',['id'=>$user->id])}}" class="btn btn-secondary">Sửa</a>
                                     <a href="" 
-                                    data-url=""
+                                    data-url="{{route('users.delete',['id'=>$user->id])}}"
                                     class="btn btn-danger action_delete">Xóa</a>
                                 </td>
                             </tr>

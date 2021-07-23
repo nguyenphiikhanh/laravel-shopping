@@ -17,23 +17,23 @@
 @section('content')
 
 <div class="content-wrapper">
-    @include('partials.content-header',['name'=> 'User','key' =>'Add'])
+    @include('partials.content-header',['name'=> 'User','key' =>'Edit'])
 
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-5">
-                    <form action="{{route('users.store')}}" method="post">
+                    <form action="{{route('users.update',['id'=>$user->id])}}" method="post">
                         @csrf
                         <div class="form-group">
                             <label>Tên</label>
-                            <input type="text" name="name" value="{{old('name')}}" class="form-control"
+                            <input type="text" name="name" value="{{$user->name}}" class="form-control"
                                 placeholder="Nhập tên">
                         </div>
 
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" name="email" value="{{old('name')}}" class="form-control"
+                            <input type="email" name="email" value="{{$user->email}}" class="form-control"
                                 placeholder="Nhập email">
                         </div>
 
@@ -48,7 +48,8 @@
                                 <option value="">admin</option>
 
                                 @foreach ($roles as $role)
-                                <option value="{{$role->id}}">{{$role->name}}</option>
+                                <option {{$rolesOfUser->contains('id', $role->id) ? 'selected' : ''}} 
+                                value="{{$role->id}}">{{$role->name}}</option>
                                 @endforeach
 
                             </select>
