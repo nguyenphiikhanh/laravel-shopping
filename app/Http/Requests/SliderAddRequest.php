@@ -25,7 +25,7 @@ class SliderAddRequest extends FormRequest
     {
         return [
             //
-            'name' => 'bail|required|unique:sliders|max:255',
+            'name' => 'bail|required|max:255',
             'description' => 'required',
             'image_path' => 'required',
         ];
@@ -35,7 +35,6 @@ class SliderAddRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên slider không được để trống',
-            'name.unique' => 'Slider đã tồn tại,vui lòng nhập tên khác',
             'name.max' => 'Tên slider không được vượt quá 255 kí tự',
             'description.required' => 'Mô tả không được để trống',
             'image_path.required' => 'Vui lòng tải lên 1 hình ảnh',

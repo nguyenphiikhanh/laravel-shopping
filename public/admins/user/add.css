@@ -1,0 +1,18 @@
+.select2-selection__choice{
+    background-color: #0d2e48 !important;
+}
+
+.image_detail_product,.feature_image{
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+}
+
+.ctn_image_detail, .ctn_feature_image{
+    margin-top: 20px;
+}
+
+.alert-danger{
+    margin-top: 10px;
+    padding: 3px 5px;
+}

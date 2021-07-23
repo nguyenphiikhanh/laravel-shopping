@@ -201,6 +201,16 @@ Route::prefix('admin')->group(function () {
                 'uses' => 'AdminUserController@index'
             ]);
     
+            Route::get('/create', [
+                'as' => 'users.create',
+                'uses' => 'AdminUserController@create'
+            ]);
+
+                
+            Route::post('/store', [
+                'as' => 'users.store',
+                'uses' => 'AdminUserController@store'
+            ]);
 
         });
 });

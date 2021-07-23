@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminUserController extends Controller
 {
@@ -13,10 +15,12 @@ class AdminUserController extends Controller
      * @return \Illuminate\Http\Response
      */
     private $user;
+    private $role;
 
-    public function __construct(User $user)
+    public function __construct(User $user,Role $role)
     {
         $this->user =$user;
+        $this->role =$role;
     }
     public function index()
     {
@@ -33,6 +37,8 @@ class AdminUserController extends Controller
     public function create()
     {
         //
+        $roles = $this->role->all();
+        return view('admin.user.add',compact('roles'));
     }
 
     /**
@@ -44,6 +50,15 @@ class AdminUserController extends Controller
     public function store(Request $request)
     {
         //
+        $user = $this->user->create([
+            'name' => $request->name,
+            'email'=> $request->email,
+            'password'=> Hash::make($request->password),
+        ]);
+        $roleIds = $request->role_id;
+        $user->roles()->attach($roleIds);
+
+        return redirect()->route('users.index');
     }
 
     /**
