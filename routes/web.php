@@ -193,4 +193,14 @@ Route::prefix('admin')->group(function () {
             'uses' => 'SettingAdminController@destroy'
         ]);
     });
+
+        //settings
+        Route::prefix('users')->group(function () {
+            Route::get('/', [
+                'as' => 'users.index',
+                'uses' => 'AdminUserController@index'
+            ]);
+    
+
+        });
 });
