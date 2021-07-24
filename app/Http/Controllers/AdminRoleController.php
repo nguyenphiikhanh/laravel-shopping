@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Permission;
 use App\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AdminRoleController extends Controller
 {
@@ -49,6 +51,22 @@ class AdminRoleController extends Controller
     public function store(Request $request)
     {
         //
+        try{
+            DB::beginTransaction();
+            $role = $this->role->create([
+                'name' =>$request->name,
+                'display_name' =>$request->display_name,
+            ]);
+    
+            $role->permissions()->attach($request->permission_id);
+            DB::commit();
+
+            return redirect()->route('roles.index');
+        } 
+        catch(\Exception $exception){
+            DB::rollBack();
+            Log::error("Lỗi : ".$exception->getMessage()."Dòng : ".$exception->getLine());
+        }
     }
 
     /**

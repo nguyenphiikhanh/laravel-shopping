@@ -5,12 +5,12 @@
 @endsection
 
 @section('css')
-<link rel="stylesheet" href="{{asset('admins/slider/add/add.css')}}">
-<style>
-    .card-header {
-        background-color: #829228;
-    }
-</style>
+<link rel="stylesheet" href="{{asset('admins/role/add.css')}}">
+@endsection
+
+
+@section('js')
+<script src="{{asset('admins/role/add.js')}}"></script>
 @endsection
 
 @section('content')
@@ -21,7 +21,7 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <form action="" method="post" enctype="multipart/form-data" style="width:100%">
+                <form action="{{route('roles.store')}}" method="post" enctype="multipart/form-data" style="width:100%">
                     <div class="col-md-12">
                         @csrf
                         <div class="form-group">
@@ -50,7 +50,7 @@
                             <div class="card border-primary mb-3 col-md-12">
                                 <div class="card-header">
                                     <label>
-                                        <input type="checkbox">
+                                        <input type="checkbox" class="checkbox_wrapper">
                                     </label>
                                     {{$permissionParentItem->name}}
                                 </div>
@@ -60,7 +60,7 @@
                                     <div class="card-body text-primary col-md-3">
                                         <h5 class="card-title">
                                             <label>
-                                                <input type="checkbox" name="permission_id[]"
+                                                <input type="checkbox" class="checkbox_children" name="permission_id[]"
                                                  value="{{$permissionsChildrenItem->id}}">
                                             </label>
                                             {{$permissionsChildrenItem->name}}
