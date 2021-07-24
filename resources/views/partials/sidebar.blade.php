@@ -78,6 +78,15 @@
           </li>
 
           <li class="nav-item">
+            <a href="{{route('roles.index')}}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Quản lý vai trò(Roles)
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
             <a onClick="return confirm('Bạn có muốn đăng xuất')" href="{{ route('admin.logout') }}" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>

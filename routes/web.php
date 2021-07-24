@@ -177,7 +177,7 @@ Route::prefix('admin')->group(function () {
             'as' => 'settings.store',
             'uses' => 'SettingAdminController@store'
         ]);
-        
+
         Route::get('/edit/{id}', [
             'as' => 'settings.edit',
             'uses' => 'SettingAdminController@edit'
@@ -194,39 +194,53 @@ Route::prefix('admin')->group(function () {
         ]);
     });
 
-        //settings
-        Route::prefix('users')->group(function () {
-            Route::get('/', [
-                'as' => 'users.index',
-                'uses' => 'AdminUserController@index'
-            ]);
-    
-            Route::get('/create', [
-                'as' => 'users.create',
-                'uses' => 'AdminUserController@create'
-            ]);
+    //users
+    Route::prefix('users')->group(function () {
+        Route::get('/', [
+            'as' => 'users.index',
+            'uses' => 'AdminUserController@index'
+        ]);
 
-                
-            Route::post('/store', [
-                'as' => 'users.store',
-                'uses' => 'AdminUserController@store'
-            ]);
+        Route::get('/create', [
+            'as' => 'users.create',
+            'uses' => 'AdminUserController@create'
+        ]);
 
-                
-            Route::get('/edit/{id}', [
-                'as' => 'users.edit',
-                'uses' => 'AdminUserController@edit'
-            ]);
 
-                            
-            Route::post('/update/{id}', [
-                'as' => 'users.update',
-                'uses' => 'AdminUserController@update'
-            ]);
+        Route::post('/store', [
+            'as' => 'users.store',
+            'uses' => 'AdminUserController@store'
+        ]);
 
-            Route::get('/delete/{id}', [
-                'as' => 'users.delete',
-                'uses' => 'AdminUserController@destroy'
-            ]);
-        });
+
+        Route::get('/edit/{id}', [
+            'as' => 'users.edit',
+            'uses' => 'AdminUserController@edit'
+        ]);
+
+
+        Route::post('/update/{id}', [
+            'as' => 'users.update',
+            'uses' => 'AdminUserController@update'
+        ]);
+
+        Route::get('/delete/{id}', [
+            'as' => 'users.delete',
+            'uses' => 'AdminUserController@destroy'
+        ]);
+    });
+
+    //roles
+    Route::prefix('roles')->group(function () {
+        Route::get('/', [
+            'as' => 'roles.index',
+            'uses' => 'AdminRoleController@index'
+        ]);
+
+        Route::get('/create', [
+            'as' => 'roles.create',
+            'uses' => 'AdminRoleController@create'
+        ]);
+    });
+
 });
