@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-<title>Slider settings</title>
+<title>Roles list</title>
 @endsection
 
 @section('css')
@@ -42,9 +42,9 @@
                                 <td>{{ $role->name }}</td>
                                 <td>{{ $role->display_name}}</td>
                                 <td>
-                                    <a href="" class="btn btn-secondary">Sửa</a>
+                                    <a href="{{route('roles.edit',['id'=>$role->id])}}" class="btn btn-secondary">Sửa</a>
                                     <a href="" 
-                                    data-url=""
+                                    data-url="{{route('roles.delete',['id'=>$role->id])}}"
                                     class="btn btn-danger action_delete">Xóa</a>
                                 </td>
                             </tr>

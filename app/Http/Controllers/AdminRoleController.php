@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Permission;
 use App\Role;
+use App\Traits\DeleteModelTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -89,6 +90,10 @@ class AdminRoleController extends Controller
     public function edit($id)
     {
         //
+        $permissionParent = $this->permission->where('parent_id',0)->get();
+        $role = $this->role->find($id);
+        $permissionsChecked = $role->permissions;
+        return view('admin.role.edit',compact('permissionParent','role','permissionsChecked'));
     }
 
     /**
@@ -101,6 +106,23 @@ class AdminRoleController extends Controller
     public function update(Request $request, $id)
     {
         //
+        try{
+            DB::beginTransaction();
+            $role = $this->role->find($id);
+            $role->update([
+                'name' =>$request->name,
+                'display_name' =>$request->display_name,
+            ]);
+            
+            $role->permissions()->sync($request->permission_id);
+            DB::commit();
+
+            return redirect()->route('roles.index');
+        } 
+        catch(\Exception $exception){
+            DB::rollBack();
+            Log::error("Lỗi : ".$exception->getMessage()."Dòng : ".$exception->getLine());
+        }
     }
 
     /**
@@ -109,8 +131,12 @@ class AdminRoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    use DeleteModelTrait;
     public function destroy($id)
     {
         //
+        $role = $this->role->find($id);
+        $role->permissions()->detach();
+        return $this->deleteModelTrait($id,$this->role);
     }
 }
