@@ -46,13 +46,21 @@
                     <div class="col-md-12">
                         <div class="row">
 
+                            <div class="col-md-12">
+                                <label>
+                                    <input type="checkbox" class="checkall">
+                                    Chọn tất cả quyền
+                                </label>
+                            </div>
+
                             @foreach ($permissionParent as $permissionParentItem)
                             <div class="card border-primary mb-3 col-md-12">
                                 <div class="card-header">
                                     <label>
                                         <input type="checkbox" class="checkbox_wrapper">
+                                        {{$permissionParentItem->name}}
                                     </label>
-                                    {{$permissionParentItem->name}}
+                                    
                                 </div>
 
                                 <div class="row">
@@ -62,8 +70,9 @@
                                             <label>
                                                 <input type="checkbox" class="checkbox_children" name="permission_id[]"
                                                  value="{{$permissionsChildrenItem->id}}">
+                                                 {{$permissionsChildrenItem->name}}
                                             </label>
-                                            {{$permissionsChildrenItem->name}}
+                                            
                                         </h5>
                                     </div>
                                     @endforeach

@@ -23,8 +23,8 @@ Route::get('/logout', 'AdminController@logout')->name('admin.logout');
 Route::get('/home', function () {
     if (Auth::check()) {
         return view('home');
-    }
-    return redirect()->route('admin.login');
+    } else
+        return redirect()->route('admin.login');
 });
 
 //admin
@@ -33,12 +33,14 @@ Route::prefix('admin')->group(function () {
     Route::prefix('categories')->group(function () {
         Route::get('/', [
             'as' => 'categories.index',
-            'uses' => 'CategoryController@index'
+            'uses' => 'CategoryController@index',
+            "middleware" => 'can:category-list'
         ]);
 
         Route::get('/create', [
             'as' => 'categories.create',
-            'uses' => 'CategoryController@create'
+            'uses' => 'CategoryController@create',
+            "middleware" => 'can:category-add'
         ]);
 
         Route::post('/store', [
@@ -48,7 +50,8 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/edit/{id}', [
             'as' => 'categories.edit',
-            'uses' => 'CategoryController@edit'
+            'uses' => 'CategoryController@edit',
+            "middleware" => 'can:category-edit'
         ]);
 
         Route::post('/update/{id}', [
@@ -58,7 +61,8 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/del/{id}', [
             'as' => 'categories.del',
-            'uses' => 'CategoryController@delete'
+            'uses' => 'CategoryController@delete',
+            "middleware" => 'can:category-del'
         ]);
     });
 
@@ -66,7 +70,8 @@ Route::prefix('admin')->group(function () {
     Route::prefix('menus')->group(function () {
         Route::get('/', [
             'as' => 'menus.index',
-            'uses' => 'MenuController@index'
+            'uses' => 'MenuController@index',
+            "middleware" => 'can:menu-list'
         ]);
 
         Route::get('/create', [
@@ -99,7 +104,8 @@ Route::prefix('admin')->group(function () {
     Route::prefix('product')->group(function () {
         Route::get('/', [
             'as' => 'product.index',
-            'uses' => 'AdminProductController@index'
+            'uses' => 'AdminProductController@index',
+            "middleware" => 'can:product_list'
         ]);
 
         Route::get('/create', [
@@ -114,7 +120,8 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/edit/{id}', [
             'as' => 'product.edit',
-            'uses' => 'AdminProductController@edit'
+            'uses' => 'AdminProductController@edit',
+            "middleware" => 'can:product_edit,id'
         ]);
 
         Route::post('/update/{id}', [
@@ -263,4 +270,17 @@ Route::prefix('admin')->group(function () {
         ]);
     });
 
+    //permisssion
+    Route::prefix('permission')->group(function () {
+
+        Route::get('/create', [
+            'as' => 'permission.create',
+            'uses' => 'PermissionAdminController@create'
+        ]);
+
+        Route::post('/store', [
+            'as' => 'permission.store',
+            'uses' => 'PermissionAdminController@store'
+        ]);
+    });
 });
