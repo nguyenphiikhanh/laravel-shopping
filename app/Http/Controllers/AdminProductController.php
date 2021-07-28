@@ -10,6 +10,7 @@ use App\Product;
 use App\ProductImage;
 use App\ProductTag;
 use App\Tag;
+use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -214,6 +215,7 @@ class AdminProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    use DeleteModelTrait;
     public function destroy($id)
     {
         //

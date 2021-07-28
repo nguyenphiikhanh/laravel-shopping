@@ -25,6 +25,7 @@
                 <div class="col-md-12">
                     <a href="{{ route('product.create') }}" class="btn btn-success float-right m-2">Add</a>
                 </div>
+
                 <div class="col-md-12">
                     <table class="table table-striped">
                         <thead>

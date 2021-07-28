@@ -86,14 +86,6 @@
             </a>
           </li> 
 
-          <li class="nav-item">
-            <a href="{{route('permission.create')}}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Tạo dữ liệu quyền
-              </p>
-            </a>
-          </li>
 
           <li class="nav-item">
             <a onClick="return confirm('Bạn có muốn đăng xuất')" href="{{ route('admin.logout') }}" class="nav-link">
