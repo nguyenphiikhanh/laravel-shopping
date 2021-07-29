@@ -20,21 +20,24 @@ Route::post('/admin', 'AdminController@login');
 
 Route::get('/logout', 'AdminController@logout')->name('admin.logout');
 
-Route::get('/home', function () {
-    if (Auth::check()) {
-        return view('home');
-    } else
-        return redirect()->route('admin.login');
-});
 
 //admin
 Route::prefix('admin')->group(function () {
+
+    //login
+    Route::get('/home', function () {
+        if (Auth::check()) {
+            return view('admin.home');
+        } else
+            return redirect()->route('admin.login');
+    });
+
     //Category
     Route::prefix('categories')->group(function () {
         Route::get('/', [
             'as' => 'categories.index',
             'uses' => 'CategoryController@index',
-            "middleware" => 'can:category-list'
+            'middleware' => 'can:category-list'
         ]);
 
         Route::get('/create', [
@@ -249,3 +252,7 @@ Route::prefix('admin')->group(function () {
         ]);
     });
 });
+
+
+//index store
+Route::get('/', 'HomeController@index');

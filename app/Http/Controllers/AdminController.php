@@ -17,7 +17,7 @@ class AdminController extends Controller
     {
         //
         if (Auth::check()) {
-            return redirect()->to('home');
+            return view('admin.home');
         } else return view('login');
     }
 
@@ -30,7 +30,7 @@ class AdminController extends Controller
         $remember = $request->has('remember_me') ? true : false;
 
         if (Auth::attempt($loginInfo, $remember)) {
-            return redirect()->to('home');
+            return view('admin.home');
         } else {
             echo '<script> alert("Sai email hoặc mật khẩu,vui lòng thử lại");</script>';
             return view('login');

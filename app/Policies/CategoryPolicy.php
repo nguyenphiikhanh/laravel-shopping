@@ -19,6 +19,7 @@ class CategoryPolicy
     public function viewAny(User $user)
     {
         //
+
     }
 
     /**
@@ -31,7 +32,7 @@ class CategoryPolicy
     public function view(User $user)
     {
         //
-        return $user->checkPermissionAccess(config('permissions.access.list-category'));
+        return $user->checkPermissionAccess('category_list');
     }
 
     /**
@@ -69,6 +70,7 @@ class CategoryPolicy
     public function delete(User $user)
     {
         //
+        return $user->checkPermissionAccess('category_delete');
     }
 
     /**
