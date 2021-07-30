@@ -256,3 +256,8 @@ Route::prefix('admin')->group(function () {
 
 //index store
 Route::get('/', 'HomeController@index')->name('home');
+
+Route::get('/category/{slug}/{id}',[
+    'as' =>  'category.product',
+    'uses' => 'HomeCategoryController@index'
+]);
