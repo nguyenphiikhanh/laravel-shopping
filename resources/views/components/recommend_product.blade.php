@@ -14,7 +14,7 @@
                         <div class="product-image-wrapper">
                             <div class="single-products">
                                 <div class="productinfo text-center">
-                                    <img src="eshopper/images/home/recommend1.jpg" alt="" />
+                                    <img src="{{$productRecommend->feature_image_path}}" alt="" />
                                     <h2>{{number_format($productRecommend->price)}}</h2>
                                     <p>{{$productRecommend->name}}</p>
                                     <a href="#" class="btn btn-default add-to-cart"><i
