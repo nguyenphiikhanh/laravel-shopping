@@ -255,4 +255,4 @@ Route::prefix('admin')->group(function () {
 
 
 //index store
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('home');
